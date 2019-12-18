@@ -28,7 +28,7 @@ class DataBase {
             `mongodb://localhost:2017/gobarber`,
             {
                 useNewUrlParser: true,
-                useFindAndModify: true,
+                useUnifiedTopology: true,
             }
         );
     }
