@@ -5,8 +5,8 @@ import User from '../models/User';
 
 class ScheduleControlle {
     async index(req, res) {
-        const { checkProvider } = await User.findOne({
-            where: { provider_id: req.userId, provider: true },
+        const checkProvider = await User.findOne({
+            where: { id: req.userId, provider: true },
         });
 
         if (!checkProvider) {
