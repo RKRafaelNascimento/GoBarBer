@@ -9,7 +9,7 @@ class AppointmentController {
     async index(req, res) {
         const { page = 1 } = req.query;
 
-        const appintments = await Appointment.findAll({
+        const appointments = await Appointment.findAll({
             where: { user_id: req.userId, canceled_at: null },
             order: ['date'],
             attributes: ['id', 'date'],
@@ -31,7 +31,7 @@ class AppointmentController {
             ],
         });
 
-        return res.json(appintments);
+        return res.json(appointments);
     }
 
     async store(req, res) {
