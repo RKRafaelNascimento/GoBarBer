@@ -22,7 +22,7 @@ class AppointmentController {
                         {
                             model: File,
                             as: 'avatar',
-                            attributes: ['id', 'path', 'uril'],
+                            attributes: ['id', 'path', 'url'],
                         },
                     ],
                 },
@@ -46,7 +46,6 @@ class AppointmentController {
         }
 
         const hourStart = startOfHour(parseISO(date));
-
         if (isBefore(hourStart, new Date())) {
             return res
                 .status(400)
@@ -58,9 +57,11 @@ class AppointmentController {
          */
 
         const checkAvailability = await Appointment.findOne({
-            provider_id,
-            canceled_at: null,
-            date: hourStart,
+            where: {
+                provider_id,
+                canceled_at: null,
+                date: hourStart,
+            },
         });
 
         if (checkAvailability) {
@@ -68,11 +69,10 @@ class AppointmentController {
                 .status(401)
                 .json({ error: 'Appoitment date is not available' });
         }
-
         const appointment = await Appointment.create({
-            uder_id: req.userId,
+            user_id: req.userId,
             provider_id,
-            date,
+            date: hourStart,
         });
 
         return res.json(appointment);
